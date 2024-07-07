@@ -1,0 +1,71 @@
+
+http://172.16.238.10:8000/node_info
+{
+  "name": "a Proxima node",
+  "id": "12D3KooWSEDuiViLCgy6RvzQWeziKk79aAMikGPFnMKjnLzv9TVi",
+  "version": "0.1-proto",
+  "num_static_peers": 0,
+  "num_dynamic_alive": 4,
+  "sequencers": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+  ]
+}
+
+
+http://172.16.238.10:8000/sync_info
+{
+  "synced": false,
+  "per_sequencer": {
+    "af7bedde1fea222230b82d63d5b665ac75afbe4ad3f75999bb3386cf994a6963": {
+      "synced": false,
+      "latest_booked_slot": 0,
+      "latest_seen_slot": 39,
+      "ledger_coverage": 0
+    }
+  }
+}
+
+http://172.16.238.10:8000/peers_info
+{
+  "peers": [
+    {
+      "id": "12D3KooWN6DSubLYu6n8M9skmJBi8Q3APWUAaLSGSKBVt6cWm5qn",
+      "multiAddresses": [
+        "/ip4/172.16.238.13/tcp/4000"
+      ]
+    },
+    {
+      "id": "12D3KooWPUEp1PNhoyXqC8E9DYd1ntBXT1Z9PCPVHV5hfUyJ2CSZ",
+      "multiAddresses": [
+        "/ip4/172.16.238.11/tcp/4000"
+      ]
+    },
+    {
+      "id": "12D3KooWLiadVyRWJBSZkR3S5aGsarkhnY6g6cooGGJUFtwQZucs",
+      "multiAddresses": [
+        "/ip4/172.16.238.14/tcp/4000"
+      ]
+    },
+    {
+      "id": "12D3KooWAnAzVyqDL2kpEMsrRZpuAJHCwR66xuFotCtth2SwQqvP",
+      "multiAddresses": [
+        "/ip4/172.16.238.12/tcp/4000"
+      ]
+    }
+  ]
+}
+
+http://172.16.238.10:8000/get_chain_output?chainid=af7bedde1fea222230b82d63d5b665ac75afbe4ad3f75999bb3386cf994a6963
+{
+  "output_id": "800001480064915b06790f3668ce4ec9d8bc87ab283444e33374f4c0196e69af00",
+  "output_data": "40060b45a6880000b5e6530ef3dd2345ada0033d48aa6f02b3f37811ae82d9c383855d3d23373cbd28ab94639fdd94a4f02d2645bca3af7bedde1fea222230b82d63d5b665ac75afbe4ad3f75999bb3386cf994a69630002000d49ca8102880000b5e6530ef3dd1d504287626f6f742e62308400000073840000001c8800000000000000006151ce88000000000067c29cd103884737e206128660c029474733efc914c7a5079dc1d02b411a2909db4e0943a2f24763a9f3672f1d0200faf1418c11d907a5544f79f45c740ce7c3a77ab265cb8443b631c9d7317864352b27b0c79502810281ff"
+}
+
+http://172.16.238.10:8000//get_account_outputs?accountable=addressED25519(0xaa401c8c6a9deacf479ab2209c07c01a27bd1eeecf0d7eaa4180b8049c6190d0)
+{
+  "outputs": {
+    "000000f4056fb68952e89b2cb942922883ff1ca04c3fccef8d288c091a68d42e02": "40020b45a68800005af3107a3e0c2345ada0aa401c8c6a9deacf479ab2209c07c01a27bd1eeecf0d7eaa4180b8049c6190d0",
+    "80000167105374eb2c49d77941286fd347368ff124ac9b507b24962b65a5dffe00": "40060b45a68800005af336b539dd2345ada0aa401c8c6a9deacf479ab2209c07c01a27bd1eeecf0d7eaa4180b8049c6190d02645bca3355dfb0933c2aa3e97fec578752b800782a8dd861c32507e2f45807c78f57dfd0002000d49ca81028800005af336b539dd1e5042886d797365712e6532840000007d84000000198800000000000000001051ce8800000000003da55980810281ff"
+  }
+}
+

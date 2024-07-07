@@ -10,4 +10,7 @@ class NodeInfo:
     version: str = "0.0.1"
     sequencer: bool = False
     apiPort: int = 8000
-    
+    latestBranchSlot:   int = 0
+    ledgerCoverage: int = 0
+    sequencerId:    str = "N/A"
+    numPeers:       int = 0

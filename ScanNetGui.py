@@ -19,10 +19,13 @@ class SortedListCtrl(wx.ListCtrl, wx.lib.mixins.listctrl.ColumnSorterMixin):
 
 IP_COL = 0
 ID_COL = 1
-SYNCED_COL = 2
-API_COL = 3
-SEQ_COL = 4
-VERSION_COL = 5
+NPEER_COL = 2
+SYNCED_COL = 3
+API_COL = 4
+SEQ_COL = 5
+LCOV_COL = 6
+L_BR_COL = 7
+VERSION_COL = 8
 
 class GridFrame(wx.Frame):
     
@@ -36,11 +39,13 @@ class GridFrame(wx.Frame):
 
         self.list = SortedListCtrl(panel, data=self.nodes, colCount=7)
         self.list.InsertColumn(IP_COL, 'IP', wx.LIST_FORMAT_CENTER, 150)
-        self.list.InsertColumn(ID_COL, 'ID', wx.LIST_FORMAT_CENTER, 250)
-        self.list.InsertColumn(SYNCED_COL, 'synced', wx.LIST_FORMAT_CENTER, 150)
+        self.list.InsertColumn(ID_COL, 'ID', wx.LIST_FORMAT_CENTER, 150)
+        self.list.InsertColumn(NPEER_COL, '# Peers', wx.LIST_FORMAT_CENTER, 100)
+        self.list.InsertColumn(SYNCED_COL, 'Synced', wx.LIST_FORMAT_CENTER, 100)
         self.list.InsertColumn(API_COL, 'API Port', wx.LIST_FORMAT_CENTER, 150)
-        self.list.InsertColumn(SEQ_COL, 'Sequencer', wx.LIST_FORMAT_RIGHT, 100)
-        #self.list.InsertColumn(5, 'ATT', wx.LIST_FORMAT_RIGHT, 200)
+        self.list.InsertColumn(SEQ_COL, 'Sequencer ID', wx.LIST_FORMAT_RIGHT, 100)
+        self.list.InsertColumn(LCOV_COL, 'Ledger coverage', wx.LIST_FORMAT_RIGHT, 180)
+        self.list.InsertColumn(L_BR_COL, 'Booked slot', wx.LIST_FORMAT_RIGHT, 200)
         self.list.InsertColumn(VERSION_COL, 'Version', wx.LIST_FORMAT_RIGHT, 150)
 
         box.Add(self.list, 1, wx.EXPAND)
@@ -105,13 +110,18 @@ class GridFrame(wx.Frame):
     def updateLine(self, index, nodeInfo):
             self.list.SetItem(index, API_COL, str(nodeInfo.enabledAPI))
             self.list.SetItem(index, ID_COL, nodeInfo.shortId)
+            self.list.SetItem(index, NPEER_COL, str(nodeInfo.numPeers))
             if nodeInfo.enabledAPI:
                 self.list.SetItem(index, SYNCED_COL, str(nodeInfo.synced))
-                self.list.SetItem(index, SEQ_COL, str(nodeInfo.sequencer))
+                self.list.SetItem(index, SEQ_COL, str(nodeInfo.sequencerId))
+                self.list.SetItem(index, LCOV_COL, str(nodeInfo.ledgerCoverage))
+                self.list.SetItem(index, L_BR_COL, str(nodeInfo.latestBranchSlot))
                 self.list.SetItem(index, VERSION_COL, nodeInfo.version)
             else:
                 self.list.SetItem(index, SYNCED_COL, "?")
                 self.list.SetItem(index, SEQ_COL, "?")
+                self.list.SetItem(index, LCOV_COL, "?")
+                self.list.SetItem(index, L_BR_COL, "?")
                 self.list.SetItem(index, VERSION_COL, "?")
                 #self.list.SetItem(index, 6, "?")
 

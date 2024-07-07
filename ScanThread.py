@@ -92,14 +92,15 @@ class ScanThread(Thread):
                 ni.apiPort = p
                 info = json.loads(self.r.text)
                 ni.name = info['name']
-                ni.shortId = info['id']                
-                ni.synced = self.getSyncInfo(ip, p)
+                ni.shortId = info['id']            
                 #ni.shortId = info['identityIDShort']
-                ni.version = info['version']
+                ni.numPeers = info['num_static_peers'] + info['num_dynamic_alive']
+                ni.version = info['version']                
                 if 'sequencers' in info:
                     ni.sequencer = (len(info['sequencers']) > 0)
                 else:
                     ni.sequencer = False
+                self.getSyncInfo(ip, p, ni)   
                 break
         if access:
             return (ni, self.idleStatus)
@@ -107,13 +108,20 @@ class ScanThread(Thread):
             self.inaccNodes[ip] = err
             return (ni, err)
 
-    def getSyncInfo(self, ip, port):
+    def getSyncInfo(self, ip, port, nodeInfo):
             self.r, err = self.request(ip, port, '/sync_info')
             if len(err) > 0:
                 return False
             if self.r.ok == True:
                 info = json.loads(self.r.text)
-                return info['synced']
+                nodeInfo.synced = info['synced']
+                if 'per_sequencer' in info:
+                    for index, (seqName, seqSyncInfo) in enumerate(info['per_sequencer'].items()):
+                        nodeInfo.latestBranchSlot = seqSyncInfo['latest_booked_slot']
+                        nodeInfo.ledgerCoverage = seqSyncInfo['ledger_coverage']
+                        nodeInfo.sequencerId = seqName
+                
+
 
     def getKnownNodes(self, ip, nodes):
         self.status = "  querying " + ip + " for neighbors"
