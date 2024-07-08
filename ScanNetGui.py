@@ -26,6 +26,7 @@ SEQ_COL = 5
 LCOV_COL = 6
 L_BR_COL = 7
 VERSION_COL = 8
+COL_COUNT = 9
 
 class GridFrame(wx.Frame):
     
@@ -37,7 +38,7 @@ class GridFrame(wx.Frame):
         panel = wx.Panel(self)
         box = wx.BoxSizer(wx.HORIZONTAL)
 
-        self.list = SortedListCtrl(panel, data=self.nodes, colCount=7)
+        self.list = SortedListCtrl(panel, data=self.nodes, colCount=COL_COUNT)
         self.list.InsertColumn(IP_COL, 'IP', wx.LIST_FORMAT_CENTER, 150)
         self.list.InsertColumn(ID_COL, 'ID', wx.LIST_FORMAT_CENTER, 150)
         self.list.InsertColumn(NPEER_COL, '# Peers', wx.LIST_FORMAT_CENTER, 100)
@@ -90,7 +91,8 @@ class GridFrame(wx.Frame):
             ip = self.list.GetItemText(idx, 0)
             if ip == nodeInfo.ip:
                 key = self.list.GetItemData(idx)
-                self.nodes[key] = (nodeInfo.ip, nodeInfo.shortId,nodeInfo.synced,nodeInfo.enabledAPI,nodeInfo.sequencer,nodeInfo.version)
+                self.nodes[key] = (nodeInfo.ip, nodeInfo.shortId,nodeInfo.numPeers,nodeInfo.synced,nodeInfo.enabledAPI,nodeInfo.sequencer,nodeInfo.ledgerCoverage,
+                                   nodeInfo.latestBranchSlot,nodeInfo.version)
                 self.updateLine(idx, nodeInfo)
                 return True
         return False
@@ -123,7 +125,6 @@ class GridFrame(wx.Frame):
                 self.list.SetItem(index, LCOV_COL, "?")
                 self.list.SetItem(index, L_BR_COL, "?")
                 self.list.SetItem(index, VERSION_COL, "?")
-                #self.list.SetItem(index, 6, "?")
 
     def updateStatus(self, status):
         wx.CallAfter(self.OnStatus, status)
