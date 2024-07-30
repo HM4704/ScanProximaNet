@@ -95,7 +95,7 @@ class ScanThread(Thread):
                 ni.shortId = info['id']            
                 #ni.shortId = info['identityIDShort']
                 ni.numPeers = info['num_static_peers'] + info['num_dynamic_alive']
-                ni.version = info['version']                
+                ni.version = info.get('version', "???")
                 if 'sequencers' in info:
                     ni.sequencer = (len(info['sequencers']) > 0)
                 else:
@@ -114,7 +114,7 @@ class ScanThread(Thread):
                 return False
             if self.r.ok == True:
                 info = json.loads(self.r.text)
-                nodeInfo.synced = info['synced']
+                nodeInfo.synced = info.get('synced', '?')
                 if 'per_sequencer' in info:
                     for index, (seqName, seqSyncInfo) in enumerate(info['per_sequencer'].items()):
                         nodeInfo.latestBranchSlot = seqSyncInfo['latest_booked_slot']
@@ -124,16 +124,20 @@ class ScanThread(Thread):
 
 
     def getKnownNodes(self, ip, nodes):
-        self.status = "  querying " + ip + " for neighbors"
-        self.r,err = self.request(ip, ':8000', '/peers_info')
-        if len(err) > 0:
-            return err
-        neighbors = json.loads(self.r.text)     
-        if 'peers' in neighbors:
-            n = neighbors['peers']
-            if n != None:
-                for entry in n:
-                    nodes.append(entry)
+        try:
+            self.status = "  querying " + ip + " for neighbors"
+            self.r,err = self.request(ip, ':8000', '/peers_info')
+            if len(err) > 0:
+                return err
+            neighbors = json.loads(self.r.text)     
+            if 'peers' in neighbors:
+                n = neighbors['peers']
+                if n != None:
+                    for entry in n:
+                        nodes.append(entry)
+        except Exception as e:
+            print(f"exception {e} while getting known nodes")
+            return ""    
         return ""
 
     def queryNodes(self, nodes):
