@@ -61,7 +61,7 @@ class GridFrame(wx.Frame):
         pub.subscribe(self.update, "node_listener")
         self.thread = ScanThread.ScanThread(node)
         self.thread.bind_to(self.updateStatus)
-        ##self.thread.cmdQuery("127.0.0.1")
+        self.thread.cmdQuery("127.0.0.1")
         #self.thread.cmdQuery("localhost:8051")
 
         self.popupmenu = wx.Menu()

@@ -117,7 +117,7 @@ class ScanThread(Thread):
                 nodeInfo.synced = info.get('synced', '?')
                 if 'per_sequencer' in info:
                     for index, (seqName, seqSyncInfo) in enumerate(info['per_sequencer'].items()):
-                        nodeInfo.latestBranchSlot = seqSyncInfo['latest_booked_slot']
+                        nodeInfo.latestBranchSlot = seqSyncInfo['latest_healthy_slot']
                         nodeInfo.ledgerCoverage = seqSyncInfo['ledger_coverage']
                         nodeInfo.sequencerId = seqName
                 
